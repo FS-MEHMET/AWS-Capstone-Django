@@ -401,18 +401,19 @@ Instance properties:
     - IAM Instance Profile: 
         - aws-capstone-ec2-ssm-s3-full-access
 ```bash
-sudo su
 apt-get update -y
 apt-get install git -y
 apt-get install python3 -y
-cd /home/ubuntu/
-TOKEN="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"
-git clone https://$TOKEN@github.com/altazbhanji/capstone.git
-cd /home/ubuntu/capstone
 apt install python3-pip -y
+pip3 install boto3
+apt  install awscli -y
+cd /home/ubuntu/
+TOKEN=$(aws --region=us-east-1 ssm get-parameter --name /fsmehmet/capstone/token --with-decryption --query 'Parameter.Value' --output text)
+git clone https://$TOKEN@github.com/FS-MEHMET/AWS-Capstone-Django.git
+cd /home/ubuntu/AWS-Capstone-Django
 apt-get install python3.10-dev default-libmysqlclient-dev -y
 pip3 install -r requirements.txt
-cd /home/ubuntu/capstone/src
+cd /home/ubuntu/AWS-Capstone-Django/src
 python3 manage.py collectstatic --noinput
 python3 manage.py makemigrations
 python3 manage.py migrate
